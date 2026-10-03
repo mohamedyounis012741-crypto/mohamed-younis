@@ -1,0 +1,192 @@
+ <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FASHION STORE | متجر الملابس</title>
+    <link rel="stylesheet" href="style.css">
+   
+</head>
+
+<body>
+
+    <!-- رأس الموقع -->
+    <header>
+        <div>
+            <h1>FASHION STORE</h1>
+            <p>أناقتك تبدأ من هنا</p>
+        </div>
+
+        <!-- القائمة الرئيسية -->
+        <nav>
+            <ul>
+                <li><a href="#home">الرئيسية</a></li>
+                <li><a href="#men">رجالي</a></li>
+                <li><a href="#women">حريمي</a></li>
+                <li><a href="#kids">أطفال</a></li>
+                <li><a href="#wholesale">الجملة</a></li>
+                <li><a href="#contact">تواصل معنا</a></li>
+            </ul>
+        </nav>
+
+        <!-- البحث والسلة -->
+        <div>
+            <input type="search" placeholder="ابحث عن منتج">
+            <a href="#cart">🛒 سلة المشتريات</a>
+        </div>
+    </header>
+
+
+    <!-- الصفحة الرئيسية -->
+    <main>
+
+        <!-- القسم الترحيبي -->
+        <section id="home">
+            <h2>اكتشف أحدث صيحات الموضة</h2>
+            <p>تسوق أحدث الملابس بأسعار مميزة للجملة والقطاعي</p>
+            <a href="#products">تسوق الآن</a>
+        </section>
+
+
+        <!-- أقسام الملابس -->
+        <section id="categories">
+            <h2>تسوق حسب القسم</h2>
+
+            <div>
+                <article>
+                    <img src="" alt="ملابس رجالي" width="250">
+                    <h3>ملابس رجالي</h3>
+                    <a href="#men">اكتشف المجموعة</a>
+                </article>
+
+                <article>
+                    <img src="" alt="images" width="250">
+                    <h3>ملابس حريمي</h3>
+                    <a href="#women">اكتشف المجموعة</a>
+                </article>
+
+                <article>
+                    <img src="" alt="ملابس أطفال" width="250">
+                    <h3>ملابس أطفال</h3>
+                    <a href="#kids">اكتشف المجموعة</a>
+                </article>
+            </div>
+        </section>
+
+
+        <!-- المنتجات -->
+        <section id="products">
+    <h2>أحدث المنتجات</h2>
+    <p>اكتشف تشكيلتنا الجديدة</p>
+
+    <div id="men"></div>
+</section>
+
+
+        <!-- قسم الملابس الحريمي -->
+        <section id="women">
+            <h2>الملابس الحريمي</h2>
+            <p>قريبًا، اكتشفي تشكيلتنا الجديدة</p>
+        </section>
+
+
+        <!-- قسم الأطفال -->
+        <section id="kids">
+            <h2>ملابس الأطفال</h2>
+            <p>قريبًا، تشكيلات مميزة للأطفال</p>
+        </section>
+
+
+        <!-- عروض الجملة -->
+        <section id="wholesale">
+            <h2>عروض الجملة</h2>
+            <p>أسعار خاصة للتجار وأصحاب المحلات</p>
+            <p>للاستفسار عن أسعار الجملة والكميات المتاحة، تواصل معنا.</p>
+            <a href="#contact">اطلب عرض سعر</a>
+        </section>
+
+
+        <!-- سلة المشتريات -->
+        <section id="cart">
+            <h2>سلة المشتريات</h2>
+
+            <div id="cartItems">
+                <p>سلة المشتريات فارغة حاليًا</p>
+            </div>
+
+            <p>الإجمالي: <span id="total">0</span> جنيه</p>
+
+            <a href="#checkout">إتمام الطلب</a>
+        </section>
+
+
+        <!-- نموذج إتمام الطلب -->
+        <section id="checkout">
+            <h2>إتمام الطلب</h2>
+
+            <form id="checkoutForm">
+
+                <label for="customerName">الاسم بالكامل:</label>
+                <input type="text" id="customerName"
+                       name="customerName" required>
+
+                <br>
+
+                <label for="phone">رقم الهاتف:</label>
+                <input type="tel" id="phone"
+                       name="phone" required>
+
+                <br>
+
+                <label for="address">العنوان بالتفصيل:</label>
+                <textarea id="address"
+                          name="address" required></textarea>
+
+                <br>
+
+                <label for="orderType">نوع الطلب:</label>
+                <select id="orderType" name="orderType">
+                    <option value="retail">قطاعي</option>
+                    <option value="wholesale">جملة</option>
+                </select>
+
+                <br>
+
+                <label for="notes">ملاحظات:</label>
+                <textarea id="notes" name="notes"></textarea>
+
+                <br>
+
+                <button type="submit">تأكيد الطلب</button>
+
+            </form>
+        </section>
+
+
+        <!-- تواصل معنا -->
+        <section id="contact">
+            <h2>تواصل معنا</h2>
+            <p>يسعدنا استقبال استفساراتكم وطلباتكم</p>
+            <p>رقم الهاتف: 01XXXXXXXXX</p>
+            <p>البريد الإلكتروني: info@example.com</p>
+        </section>
+
+    </main>
+
+
+    <!-- تذييل الموقع -->
+    <footer>
+        <p>FASHION STORE</p>
+        <p>جميع الحقوق محفوظة &copy; 2026</p>
+
+        <nav>
+            <a href="#home">الرئيسية</a>
+            <a href="#products">المنتجات</a>
+            <a href="#contact">تواصل معنا</a>
+        </nav>
+    </footer>
+    <script src="script.js"></script>
+
+</body>
+</html>
