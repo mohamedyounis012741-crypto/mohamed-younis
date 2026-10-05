@@ -62,7 +62,97 @@ app.get("/", (req, res) => {
 app.get("/api/products", (req, res) => {
     res.json(products);
 });
+// ===============================
+// إدارة المنتجات من لوحة التحكم
+// ===============================
 
+// إضافة منتج جديد
+app.post("/api/products", (req, res) => {
+
+    const { name, price, image } = req.body;
+
+    if (!name || !price || !image) {
+        return res.status(400).json({
+            message: "يرجى إدخال اسم المنتج والسعر والصورة"
+        });
+    }
+
+    const newProduct = {
+        id: products.length > 0
+            ? Math.max(...products.map(p => p.id)) + 1
+            : 1,
+
+        name: name,
+        price: Number(price),
+        image: image
+    };
+
+    products.push(newProduct);
+
+    res.status(201).json({
+        message: "تم إضافة المنتج بنجاح",
+        product: newProduct
+    });
+});
+
+
+// تعديل منتج
+app.put("/api/products/:id", (req, res) => {
+
+    const id = Number(req.params.id);
+
+    const product = products.find(
+        p => p.id === id
+    );
+
+    if (!product) {
+        return res.status(404).json({
+            message: "المنتج غير موجود"
+        });
+    }
+
+    const { name, price, image } = req.body;
+
+    if (name) {
+        product.name = name;
+    }
+
+    if (price) {
+        product.price = Number(price);
+    }
+
+    if (image) {
+        product.image = image;
+    }
+
+    res.json({
+        message: "تم تعديل المنتج بنجاح",
+        product: product
+    });
+});
+
+
+// حذف منتج
+app.delete("/api/products/:id", (req, res) => {
+
+    const id = Number(req.params.id);
+
+    const index = products.findIndex(
+        p => p.id === id
+    );
+
+    if (index === -1) {
+        return res.status(404).json({
+            message: "المنتج غير موجود"
+        });
+    }
+
+    products.splice(index, 1);
+
+    res.json({
+        message: "تم حذف المنتج بنجاح"
+    });
+});
 // تخزين الطلبات مؤقتًا
 let orders = [];
 
