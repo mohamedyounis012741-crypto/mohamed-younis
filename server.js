@@ -1,195 +1,350 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
+
 const path = require("path");
+const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
-// إعدادات السيرفر
+const PORT = 5000;
+
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// تشغيل ملفات الموقع
+const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_KEY
+);
+
+// =====================================
+// ملفات الموقع
+// =====================================
+
 app.use(express.static(__dirname));
 
-// منتجات الملابس
-const products = [
-    {
-        id: 1,
-        name: "تيشيرت رجالي",
-        price: 450,
-        image: "images for store/WhatsApp Image 2026-10-02 at 19.34.18.jpeg"
-    },
-    {
-        id: 2,
-        name: "تيشيرت رجالي 2",
-        price: 450,
-        image: "images for store/WhatsApp Image 2026-10-02 at 19.34.20(2) - Copy.jpeg"
-    },
-    {
-        id: 3,
-        name: "تيشيرت رجالي 3",
-        price: 450,
-        image: "images for store/WhatsApp Image 2026-10-02 at 19.34.20(2).jpeg"
-    },
-    {
-        id: 4,
-        name: "تيشيرت رجالي 4",
-        price: 450,
-        image: "images for store/WhatsApp Image 2026-10-02 at 19.34.20(1) - Copy.jpeg"
-    },
-    {
-        id: 5,
-        name: "تيشيرت رجالي 5",
-        price: 450,
-        image: "images for store/WhatsApp Image 2026-10-02 at 19.34.20(1).jpeg"
-    },
-    {
-        id: 6,
-        name: "تيشيرت رجالي 6",
-        price: 450,
-        image: "images for store/WhatsApp Image 2026-10-02 at 19.34.18(1).jpeg"
-    }
-];
-
-
-// الصفحة الرئيسية
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// عرض المنتجات
-app.get("/api/products", (req, res) => {
-    res.json(products);
+app.get("/admin.html", (req, res) => {
+    res.sendFile(path.join(__dirname, "admin.html"));
 });
-// ===============================
-// إدارة المنتجات من لوحة التحكم
-// ===============================
 
-// إضافة منتج جديد
-app.post("/api/products", (req, res) => {
 
-    const { name, price, image } = req.body;
+// =====================================
+// المنتجات
+// =====================================
 
-    if (!name || !price || !image) {
-        return res.status(400).json({
-            message: "يرجى إدخال اسم المنتج والسعر والصورة"
+// جلب المنتجات
+app.get("/api/products", async (req, res) => {
+
+    try {
+
+        const { data, error } = await supabase
+            .from("products")
+            .select("*")
+            .order("id", { ascending: false });
+
+        if (error) {
+            console.error("GET PRODUCTS ERROR:", error);
+            return res.status(500).json({
+                message: error.message
+            });
+        }
+
+        res.json(data || []);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "حدث خطأ في السيرفر"
         });
+
     }
 
-    const newProduct = {
-        id: products.length > 0
-            ? Math.max(...products.map(p => p.id)) + 1
-            : 1,
-
-        name: name,
-        price: Number(price),
-        image: image
-    };
-
-    products.push(newProduct);
-
-    res.status(201).json({
-        message: "تم إضافة المنتج بنجاح",
-        product: newProduct
-    });
 });
 
 
+// =====================================
+// إضافة منتج
+// =====================================
+
+app.post("/api/products", async (req, res) => {
+
+    try {
+
+        const { name, price, image } = req.body;
+
+        if (!name || price === undefined || !image) {
+
+            return res.status(400).json({
+                message: "اسم المنتج والسعر والصورة مطلوبة"
+            });
+
+        }
+
+        const { data, error } = await supabase
+            .from("products")
+            .insert([
+                {
+                    name: name,
+                    price: Number(price),
+                    image: image
+                }
+            ])
+            .select()
+            .single();
+
+        if (error) {
+
+            console.error("ADD PRODUCT ERROR:", error);
+
+            return res.status(500).json({
+                message: error.message
+            });
+
+        }
+
+        res.status(201).json(data);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "حدث خطأ أثناء إضافة المنتج"
+        });
+
+    }
+
+});
+
+
+// =====================================
 // تعديل منتج
-app.put("/api/products/:id", (req, res) => {
+// =====================================
 
-    const id = Number(req.params.id);
+app.put("/api/products/:id", async (req, res) => {
 
-    const product = products.find(
-        p => p.id === id
-    );
+    try {
 
-    if (!product) {
-        return res.status(404).json({
-            message: "المنتج غير موجود"
+        const id = Number(req.params.id);
+
+        const { name, price, image } = req.body;
+
+        if (!id) {
+
+            return res.status(400).json({
+                message: "رقم المنتج غير صحيح"
+            });
+
+        }
+
+        if (!name || price === undefined || !image) {
+
+            return res.status(400).json({
+                message: "اسم المنتج والسعر والصورة مطلوبة"
+            });
+
+        }
+
+        const { data, error } = await supabase
+            .from("products")
+            .update({
+                name: name,
+                price: Number(price),
+                image: image
+            })
+            .eq("id", id)
+            .select()
+            .single();
+
+        if (error) {
+
+            console.error("UPDATE PRODUCT ERROR:", error);
+
+            return res.status(500).json({
+                message: error.message
+            });
+
+        }
+
+        res.json(data);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "حدث خطأ أثناء تعديل المنتج"
         });
+
     }
 
-    const { name, price, image } = req.body;
-
-    if (name) {
-        product.name = name;
-    }
-
-    if (price) {
-        product.price = Number(price);
-    }
-
-    if (image) {
-        product.image = image;
-    }
-
-    res.json({
-        message: "تم تعديل المنتج بنجاح",
-        product: product
-    });
 });
 
 
+// =====================================
 // حذف منتج
-app.delete("/api/products/:id", (req, res) => {
+// =====================================
 
-    const id = Number(req.params.id);
+app.delete("/api/products/:id", async (req, res) => {
 
-    const index = products.findIndex(
-        p => p.id === id
-    );
+    try {
 
-    if (index === -1) {
-        return res.status(404).json({
-            message: "المنتج غير موجود"
+        const id = Number(req.params.id);
+
+        if (!id) {
+
+            return res.status(400).json({
+                message: "رقم المنتج غير صحيح"
+            });
+
+        }
+
+        const { error } = await supabase
+            .from("products")
+            .delete()
+            .eq("id", id);
+
+        if (error) {
+
+            console.error("DELETE PRODUCT ERROR:", error);
+
+            return res.status(500).json({
+                message: error.message
+            });
+
+        }
+
+        res.json({
+            message: "تم حذف المنتج بنجاح"
         });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "حدث خطأ أثناء حذف المنتج"
+        });
+
     }
 
-    products.splice(index, 1);
-
-    res.json({
-        message: "تم حذف المنتج بنجاح"
-    });
 });
-// تخزين الطلبات مؤقتًا
-let orders = [];
 
-// استقبال الطلبات
-app.post("/api/orders", (req, res) => {
-    const { name, phone, address, items, total } = req.body;
 
-    if (!name || !phone || !address || !Array.isArray(items) || items.length === 0) {
-        return res.status(400).json({
-            message: "يرجى إدخال جميع بيانات الطلب"
+// =====================================
+// الطلبات
+// =====================================
+
+// جلب الطلبات للـ Admin
+app.get("/api/orders", async (req, res) => {
+
+    try {
+
+        const { data, error } = await supabase
+            .from("orders")
+            .select("*")
+            .order("id", { ascending: false });
+
+        if (error) {
+
+            console.error("GET ORDERS ERROR:", error);
+
+            return res.status(500).json({
+                message: error.message
+            });
+
+        }
+
+        res.json(data || []);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "حدث خطأ في تحميل الطلبات"
         });
+
     }
 
-    const newOrder = {
-        id: Date.now(),
-        name,
-        phone,
-        address,
-        items,
-        total,
-        date: new Date().toLocaleString("ar-EG")
-    };
-
-    orders.push(newOrder);
-
-    res.status(201).json({
-        message: "تم استلام طلبك بنجاح",
-        order: newOrder
-    });
 });
 
-// عرض الطلبات
-app.get("/api/orders", (req, res) => {
-    res.json(orders);
+
+// =====================================
+// إنشاء طلب من العميل
+// =====================================
+
+app.post("/api/orders", async (req, res) => {
+
+    try {
+
+        const {
+            name,
+            phone,
+            address,
+            items,
+            total
+        } = req.body;
+
+        if (!name || !phone || !address || !items || items.length === 0) {
+
+            return res.status(400).json({
+                message: "بيانات الطلب غير مكتملة"
+            });
+
+        }
+
+        const { data, error } = await supabase
+            .from("orders")
+            .insert([
+                {
+                    name: name,
+                    phone: phone,
+                    address: address,
+                    items: items,
+                    total: Number(total || 0),
+                    date: new Date().toLocaleString("ar-EG")
+                }
+            ])
+            .select()
+            .single();
+
+        if (error) {
+
+            console.error("ADD ORDER ERROR:", error);
+
+            return res.status(500).json({
+                message: error.message
+            });
+
+        }
+
+        res.status(201).json(data);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "حدث خطأ أثناء إرسال الطلب"
+        });
+
+    }
+
 });
 
+
+// =====================================
 // تشغيل السيرفر
+// =====================================
+
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+
+    console.log(`Server running on port ${PORT}`);
+
 });
