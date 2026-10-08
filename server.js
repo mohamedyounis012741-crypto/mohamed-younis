@@ -1,4 +1,3 @@
-```javascript
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
@@ -11,17 +10,16 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
 
 const supabase = createClient(
     process.env.SUPABASE_URL,
     process.env.SUPABASE_KEY
 );
 
-// =====================================
-// ملفات الموقع
-// =====================================
-
-app.use(express.static(__dirname));
+// ===============================
+// صفحات الموقع
+// ===============================
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "index.html"));
@@ -31,16 +29,12 @@ app.get("/admin.html", (req, res) => {
     res.sendFile(path.join(__dirname, "admin.html"));
 });
 
-
-// =====================================
+// ===============================
 // المنتجات
-// =====================================
+// ===============================
 
-// جلب المنتجات
 app.get("/api/products", async (req, res) => {
-
     try {
-
         const { data, error } = await supabase
             .from("products")
             .select("*")
@@ -48,43 +42,26 @@ app.get("/api/products", async (req, res) => {
 
         if (error) {
             console.error("GET PRODUCTS ERROR:", error);
-
-            return res.status(500).json({
-                message: error.message
-            });
+            return res.status(500).json({ message: error.message });
         }
 
         res.json(data || []);
-
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             message: "حدث خطأ في السيرفر"
         });
-
     }
-
 });
 
-
-// =====================================
-// إضافة منتج
-// =====================================
-
 app.post("/api/products", async (req, res) => {
-
     try {
-
         const { name, price, image } = req.body;
 
         if (!name || price === undefined || !image) {
-
             return res.status(400).json({
                 message: "اسم المنتج والسعر والصورة مطلوبة"
             });
-
         }
 
         const { data, error } = await supabase
@@ -100,56 +77,36 @@ app.post("/api/products", async (req, res) => {
             .single();
 
         if (error) {
-
             console.error("ADD PRODUCT ERROR:", error);
-
             return res.status(500).json({
                 message: error.message
             });
-
         }
 
         res.status(201).json(data);
-
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             message: "حدث خطأ أثناء إضافة المنتج"
         });
-
     }
-
 });
 
-
-// =====================================
-// تعديل منتج
-// =====================================
-
 app.put("/api/products/:id", async (req, res) => {
-
     try {
-
         const id = Number(req.params.id);
-
         const { name, price, image } = req.body;
 
         if (!id) {
-
             return res.status(400).json({
                 message: "رقم المنتج غير صحيح"
             });
-
         }
 
         if (!name || price === undefined || !image) {
-
             return res.status(400).json({
                 message: "اسم المنتج والسعر والصورة مطلوبة"
             });
-
         }
 
         const { data, error } = await supabase
@@ -164,46 +121,29 @@ app.put("/api/products/:id", async (req, res) => {
             .single();
 
         if (error) {
-
             console.error("UPDATE PRODUCT ERROR:", error);
-
             return res.status(500).json({
                 message: error.message
             });
-
         }
 
         res.json(data);
-
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             message: "حدث خطأ أثناء تعديل المنتج"
         });
-
     }
-
 });
 
-
-// =====================================
-// حذف منتج
-// =====================================
-
 app.delete("/api/products/:id", async (req, res) => {
-
     try {
-
         const id = Number(req.params.id);
 
         if (!id) {
-
             return res.status(400).json({
                 message: "رقم المنتج غير صحيح"
             });
-
         }
 
         const { error } = await supabase
@@ -212,81 +152,63 @@ app.delete("/api/products/:id", async (req, res) => {
             .eq("id", id);
 
         if (error) {
-
             console.error("DELETE PRODUCT ERROR:", error);
-
             return res.status(500).json({
                 message: error.message
             });
-
         }
 
         res.json({
             message: "تم حذف المنتج بنجاح"
         });
-
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             message: "حدث خطأ أثناء حذف المنتج"
         });
-
     }
-
 });
 
+// ===============================
+// صور الأقسام
+// ===============================
 
-// =====================================
-// صور الأقسام الثابتة
-// =====================================
-
-// جلب صور الأقسام للموقع
 app.get("/api/site-settings", async (req, res) => {
-
     try {
-
         const { data, error } = await supabase
             .from("site_settings")
             .select("setting_key, setting_value");
 
         if (error) {
-
             console.error("GET SITE SETTINGS ERROR:", error);
-
             return res.status(500).json({
                 message: error.message
             });
-
         }
 
-        const settings = {};
+        const settings = {
+            men_image: "",
+            women_image: "",
+            kids_image: ""
+        };
 
-        (data || []).forEach(item => {
-            settings[item.setting_key] = item.setting_value || "";
+        (data || []).forEach((item) => {
+            if (item.setting_key in settings) {
+                settings[item.setting_key] = item.setting_value || "";
+            }
         });
 
         res.json(settings);
-
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             message: "حدث خطأ في تحميل إعدادات الموقع"
         });
-
     }
-
 });
 
-
-// تحديث صورة قسم
 app.put("/api/site-settings/:key", async (req, res) => {
-
     try {
-
         const allowedKeys = [
             "men_image",
             "women_image",
@@ -294,22 +216,18 @@ app.put("/api/site-settings/:key", async (req, res) => {
         ];
 
         const key = req.params.key;
-        const { value } = req.body;
+        const value = req.body.value;
 
         if (!allowedKeys.includes(key)) {
-
             return res.status(400).json({
                 message: "إعداد غير مسموح"
             });
-
         }
 
         if (!value) {
-
             return res.status(400).json({
                 message: "رابط الصورة مطلوب"
             });
-
         }
 
         const { data, error } = await supabase
@@ -323,77 +241,50 @@ app.put("/api/site-settings/:key", async (req, res) => {
             .single();
 
         if (error) {
-
             console.error("UPDATE SITE SETTING ERROR:", error);
-
             return res.status(500).json({
                 message: error.message
             });
-
         }
 
         res.json(data);
-
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             message: "حدث خطأ أثناء تحديث صورة القسم"
         });
-
     }
-
 });
 
-
-// =====================================
+// ===============================
 // الطلبات
-// =====================================
+// ===============================
 
-// جلب الطلبات للـ Admin
 app.get("/api/orders", async (req, res) => {
-
     try {
-
         const { data, error } = await supabase
             .from("orders")
             .select("*")
             .order("id", { ascending: false });
 
         if (error) {
-
             console.error("GET ORDERS ERROR:", error);
-
             return res.status(500).json({
                 message: error.message
             });
-
         }
 
         res.json(data || []);
-
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             message: "حدث خطأ في تحميل الطلبات"
         });
-
     }
-
 });
 
-
-// =====================================
-// إنشاء طلب من العميل
-// =====================================
-
 app.post("/api/orders", async (req, res) => {
-
     try {
-
         const {
             name,
             phone,
@@ -403,11 +294,9 @@ app.post("/api/orders", async (req, res) => {
         } = req.body;
 
         if (!name || !phone || !address || !items || items.length === 0) {
-
             return res.status(400).json({
                 message: "بيانات الطلب غير مكتملة"
             });
-
         }
 
         const { data, error } = await supabase
@@ -426,35 +315,25 @@ app.post("/api/orders", async (req, res) => {
             .single();
 
         if (error) {
-
             console.error("ADD ORDER ERROR:", error);
-
             return res.status(500).json({
                 message: error.message
             });
-
         }
 
         res.status(201).json(data);
-
     } catch (error) {
-
         console.error(error);
-
         res.status(500).json({
             message: "حدث خطأ أثناء إرسال الطلب"
         });
-
     }
-
 });
 
-
-// =====================================
+// ===============================
 // تشغيل السيرفر
-// =====================================
+// ===============================
 
 app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log("Server running on port " + PORT);
 });
-```
