@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
@@ -90,6 +91,53 @@
 
         .stat-card p {
             font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* صور الأقسام */
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .category-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            background: #fff;
+        }
+
+        .category-card h3 {
+            margin-bottom: 12px;
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #eee;
+            margin-bottom: 12px;
+        }
+
+        .category-card input {
+            margin-bottom: 10px;
+        }
+
+        .save-category-btn {
+            width: 100%;
+            background: #111;
+            color: white;
+        }
+
+        .save-category-btn:hover {
+            background: #333;
+        }
+
+        .category-message {
+            margin-top: 10px;
             font-weight: bold;
         }
 
@@ -216,7 +264,8 @@
 
             .stats,
             .form-grid,
-            .products {
+            .products,
+            .categories-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -247,7 +296,7 @@
             <h2>لوحة التحكم</h2>
 
             <p>
-                من هنا تقدر تدير المنتجات والطلبات.
+                من هنا تقدر تدير المنتجات والطلبات وصور الأقسام.
             </p>
 
         </div>
@@ -275,7 +324,130 @@
         </div>
 
 
+        <!-- ===================================== -->
+        <!-- صور الأقسام -->
+        <!-- ===================================== -->
+
+        <div class="section">
+
+            <div class="section-title">
+
+                <h2>🖼️ إدارة صور الأقسام</h2>
+
+            </div>
+
+            <p style="margin-bottom:20px;">
+                من هنا تقدر تغير الصور الرئيسية لأقسام المتجر.
+            </p>
+
+            <div class="categories-grid">
+
+                <!-- الرجالي -->
+
+                <div class="category-card">
+
+                    <h3>👔 قسم الرجالي</h3>
+
+                    <img
+                        id="menImagePreview"
+                        src=""
+                        alt="صورة الرجالي"
+                    >
+
+                    <input
+                        type="text"
+                        id="menImageInput"
+                        placeholder="مسار أو رابط صورة الرجالي"
+                    >
+
+                    <button
+                        class="save-category-btn"
+                        onclick="saveCategoryImage('men')"
+                    >
+                        حفظ صورة الرجالي
+                    </button>
+
+                    <div
+                        id="menMessage"
+                        class="category-message"
+                    ></div>
+
+                </div>
+
+
+                <!-- الحريمي -->
+
+                <div class="category-card">
+
+                    <h3>👗 قسم الحريمي</h3>
+
+                    <img
+                        id="womenImagePreview"
+                        src=""
+                        alt="صورة الحريمي"
+                    >
+
+                    <input
+                        type="text"
+                        id="womenImageInput"
+                        placeholder="مسار أو رابط صورة الحريمي"
+                    >
+
+                    <button
+                        class="save-category-btn"
+                        onclick="saveCategoryImage('women')"
+                    >
+                        حفظ صورة الحريمي
+                    </button>
+
+                    <div
+                        id="womenMessage"
+                        class="category-message"
+                    ></div>
+
+                </div>
+
+
+                <!-- الأطفال -->
+
+                <div class="category-card">
+
+                    <h3>👶 قسم الأطفال</h3>
+
+                    <img
+                        id="kidsImagePreview"
+                        src=""
+                        alt="صورة الأطفال"
+                    >
+
+                    <input
+                        type="text"
+                        id="kidsImageInput"
+                        placeholder="مسار أو رابط صورة الأطفال"
+                    >
+
+                    <button
+                        class="save-category-btn"
+                        onclick="saveCategoryImage('kids')"
+                    >
+                        حفظ صورة الأطفال
+                    </button>
+
+                    <div
+                        id="kidsMessage"
+                        class="category-message"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ===================================== -->
         <!-- إضافة منتج -->
+        <!-- ===================================== -->
 
         <div class="section">
 
@@ -366,9 +538,174 @@
 
     <script>
 
-        // =========================
+        // =====================================
+        // تحميل صور الأقسام
+        // =====================================
+
+        async function loadCategoryImages() {
+
+            try {
+
+                const response =
+                    await fetch("/api/site-settings");
+
+                const settings =
+                    await response.json();
+
+
+                const menImage =
+                    settings.men_image || "";
+
+                const womenImage =
+                    settings.women_image || "";
+
+                const kidsImage =
+                    settings.kids_image || "";
+
+
+                document.getElementById("menImageInput").value =
+                    menImage;
+
+                document.getElementById("womenImageInput").value =
+                    womenImage;
+
+                document.getElementById("kidsImageInput").value =
+                    kidsImage;
+
+
+                if (menImage) {
+                    document.getElementById("menImagePreview").src =
+                        menImage;
+                }
+
+                if (womenImage) {
+                    document.getElementById("womenImagePreview").src =
+                        womenImage;
+                }
+
+                if (kidsImage) {
+                    document.getElementById("kidsImagePreview").src =
+                        kidsImage;
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "CATEGORY IMAGES ERROR:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        // =====================================
+        // حفظ صورة القسم
+        // =====================================
+
+        async function saveCategoryImage(category) {
+
+            let key;
+            let inputId;
+            let previewId;
+            let messageId;
+
+
+            if (category === "men") {
+
+                key = "men_image";
+                inputId = "menImageInput";
+                previewId = "menImagePreview";
+                messageId = "menMessage";
+
+            } else if (category === "women") {
+
+                key = "women_image";
+                inputId = "womenImageInput";
+                previewId = "womenImagePreview";
+                messageId = "womenMessage";
+
+            } else {
+
+                key = "kids_image";
+                inputId = "kidsImageInput";
+                previewId = "kidsImagePreview";
+                messageId = "kidsMessage";
+
+            }
+
+
+            const image =
+                document.getElementById(inputId).value.trim();
+
+            const message =
+                document.getElementById(messageId);
+
+
+            if (!image) {
+
+                message.textContent =
+                    "من فضلك أدخل مسار الصورة.";
+
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(`/api/site-settings/${key}`, {
+
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            value: image
+                        })
+
+                    });
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    message.textContent =
+                        data.message || "حدث خطأ في حفظ الصورة.";
+
+                    return;
+                }
+
+
+                document.getElementById(previewId).src =
+                    image;
+
+                message.textContent =
+                    "✅ تم حفظ الصورة بنجاح";
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                message.textContent =
+                    "حدث خطأ في الاتصال بالسيرفر.";
+
+            }
+
+        }
+
+
+        // =====================================
         // تحميل المنتجات
-        // =========================
+        // =====================================
 
         async function loadProducts() {
 
@@ -466,9 +803,9 @@
         }
 
 
-        // =========================
+        // =====================================
         // إضافة منتج
-        // =========================
+        // =====================================
 
         async function addProduct() {
 
@@ -552,9 +889,9 @@
         }
 
 
-        // =========================
+        // =====================================
         // تعديل المنتج
-        // =========================
+        // =====================================
 
         async function updateProduct(id) {
 
@@ -620,9 +957,9 @@
         }
 
 
-        // =========================
+        // =====================================
         // حذف المنتج
-        // =========================
+        // =====================================
 
         async function deleteProduct(id) {
 
@@ -677,9 +1014,9 @@
         }
 
 
-        // =========================
+        // =====================================
         // تحميل الطلبات
-        // =========================
+        // =====================================
 
         async function loadOrders() {
 
@@ -814,10 +1151,12 @@
         }
 
 
+        // =====================================
         // تشغيل الصفحة
+        // =====================================
 
+        loadCategoryImages();
         loadProducts();
-
         loadOrders();
 
     </script>
@@ -825,3 +1164,4 @@
 </body>
 
 </html>
+```

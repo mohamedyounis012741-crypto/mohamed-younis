@@ -1,3 +1,4 @@
+```javascript
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
@@ -7,6 +8,7 @@ const { createClient } = require("@supabase/supabase-js");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
 app.use(cors());
 app.use(express.json());
 
@@ -46,6 +48,7 @@ app.get("/api/products", async (req, res) => {
 
         if (error) {
             console.error("GET PRODUCTS ERROR:", error);
+
             return res.status(500).json({
                 message: error.message
             });
@@ -236,6 +239,115 @@ app.delete("/api/products/:id", async (req, res) => {
 
 
 // =====================================
+// صور الأقسام الثابتة
+// =====================================
+
+// جلب صور الأقسام للموقع
+app.get("/api/site-settings", async (req, res) => {
+
+    try {
+
+        const { data, error } = await supabase
+            .from("site_settings")
+            .select("setting_key, setting_value");
+
+        if (error) {
+
+            console.error("GET SITE SETTINGS ERROR:", error);
+
+            return res.status(500).json({
+                message: error.message
+            });
+
+        }
+
+        const settings = {};
+
+        (data || []).forEach(item => {
+            settings[item.setting_key] = item.setting_value || "";
+        });
+
+        res.json(settings);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "حدث خطأ في تحميل إعدادات الموقع"
+        });
+
+    }
+
+});
+
+
+// تحديث صورة قسم
+app.put("/api/site-settings/:key", async (req, res) => {
+
+    try {
+
+        const allowedKeys = [
+            "men_image",
+            "women_image",
+            "kids_image"
+        ];
+
+        const key = req.params.key;
+        const { value } = req.body;
+
+        if (!allowedKeys.includes(key)) {
+
+            return res.status(400).json({
+                message: "إعداد غير مسموح"
+            });
+
+        }
+
+        if (!value) {
+
+            return res.status(400).json({
+                message: "رابط الصورة مطلوب"
+            });
+
+        }
+
+        const { data, error } = await supabase
+            .from("site_settings")
+            .update({
+                setting_value: value,
+                updated_at: new Date().toISOString()
+            })
+            .eq("setting_key", key)
+            .select()
+            .single();
+
+        if (error) {
+
+            console.error("UPDATE SITE SETTING ERROR:", error);
+
+            return res.status(500).json({
+                message: error.message
+            });
+
+        }
+
+        res.json(data);
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: "حدث خطأ أثناء تحديث صورة القسم"
+        });
+
+    }
+
+});
+
+
+// =====================================
 // الطلبات
 // =====================================
 
@@ -345,3 +457,4 @@ app.post("/api/orders", async (req, res) => {
 app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on port ${PORT}`);
 });
+```

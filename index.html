@@ -1,192 +1,965 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FASHION STORE | متجر الملابس</title>
+
+    <title>FASHION STORE | Premium Fashion</title>
+
+    <meta name="description"
+        content="FASHION STORE - متجر أزياء للملابس الرجالي والحريمي والأطفال والجملة.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
-   
 </head>
 
 <body>
 
-    <!-- رأس الموقع -->
-    <header>
-        <div>
-            <h1>FASHION STORE</h1>
-            <p>أناقتك تبدأ من هنا</p>
+    <!-- =========================
+         TOP BAR
+    ========================== -->
+
+    <div class="top-bar">
+        <p>شحن لجميع أنحاء مصر • جودة تستحقها</p>
+    </div>
+
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="main-header">
+
+        <div class="header-inner">
+
+            <a href="#home" class="brand">
+
+                <span class="brand-name">
+                    FASHION
+                </span>
+
+                <span class="brand-subtitle">
+                    STORE
+                </span>
+
+            </a>
+
+
+            <nav class="main-nav">
+
+                <a href="#home">الرئيسية</a>
+
+                <a href="#products">المتجر</a>
+
+                <a href="#women">حريمي</a>
+
+                <a href="#kids">أطفال</a>
+
+                <a href="#wholesale">الجملة</a>
+
+                <a href="#contact">تواصل معنا</a>
+
+            </nav>
+
+
+            <div class="header-actions">
+
+                <div class="search-box">
+
+                    <span class="search-icon">
+                        ⌕
+                    </span>
+
+                    <input
+                        type="search"
+                        id="productSearch"
+                        placeholder="ابحث عن منتج..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <a href="#cart" class="cart-button">
+
+                    <span class="cart-icon">
+                        🛒
+                    </span>
+
+                    <span>
+                        السلة
+                    </span>
+
+                    <span id="cartCount" class="cart-count">
+                        0
+                    </span>
+
+                </a>
+
+            </div>
+
         </div>
 
-        <!-- القائمة الرئيسية -->
-        <nav>
-            <ul>
-                <li><a href="#home">الرئيسية</a></li>
-                <li><a href="#men">رجالي</a></li>
-                <li><a href="#women">حريمي</a></li>
-                <li><a href="#kids">أطفال</a></li>
-                <li><a href="#wholesale">الجملة</a></li>
-                <li><a href="#contact">تواصل معنا</a></li>
-            </ul>
-        </nav>
-
-        <!-- البحث والسلة -->
-        <div>
-            <input type="search" placeholder="ابحث عن منتج">
-            <a href="#cart">🛒 سلة المشتريات</a>
-        </div>
     </header>
 
 
-    <!-- الصفحة الرئيسية -->
+    <!-- =========================
+         HERO
+    ========================== -->
+
     <main>
 
-        <!-- القسم الترحيبي -->
-        <section id="home">
-            <h2>اكتشف أحدث صيحات الموضة</h2>
-            <p>تسوق أحدث الملابس بأسعار مميزة للجملة والقطاعي</p>
-            <a href="#products">تسوق الآن</a>
-        </section>
+        <section id="home" class="hero">
 
+            <div class="hero-content">
 
-        <!-- أقسام الملابس -->
-        <section id="categories">
-            <h2>تسوق حسب القسم</h2>
+                <span class="hero-label">
+                    NEW COLLECTION • 2026
+                </span>
 
-            <div>
-                <article>
-                    <img src="" alt="ملابس رجالي" width="250">
-                    <h3>ملابس رجالي</h3>
-                    <a href="#men">اكتشف المجموعة</a>
-                </article>
+                <h1>
+                    أناقتك تبدأ
+                    <br>
+                    <span>من اختيارك</span>
+                </h1>
 
-                <article>
-                    <img src="" alt="images" width="250">
-                    <h3>ملابس حريمي</h3>
-                    <a href="#women">اكتشف المجموعة</a>
-                </article>
+                <p>
+                    اكتشف أحدث تشكيلات الأزياء
+                    بتصميمات عصرية وجودة مميزة
+                    تناسب كل إطلالة.
+                </p>
 
-                <article>
-                    <img src="" alt="ملابس أطفال" width="250">
-                    <h3>ملابس أطفال</h3>
-                    <a href="#kids">اكتشف المجموعة</a>
-                </article>
-            </div>
-        </section>
+                <div class="hero-buttons">
 
+                    <a href="#products" class="primary-button">
+                        تسوق الآن
+                    </a>
 
-        <!-- المنتجات -->
-        <section id="products">
-    <h2>أحدث المنتجات</h2>
-    <p>اكتشف تشكيلتنا الجديدة</p>
+                    <a href="#wholesale" class="secondary-button">
+                        عروض الجملة
+                    </a>
 
-    <div id="men"></div>
-</section>
+                </div>
 
-
-        <!-- قسم الملابس الحريمي -->
-        <section id="women">
-            <h2>الملابس الحريمي</h2>
-            <p>قريبًا، اكتشفي تشكيلتنا الجديدة</p>
-        </section>
-
-
-        <!-- قسم الأطفال -->
-        <section id="kids">
-            <h2>ملابس الأطفال</h2>
-            <p>قريبًا، تشكيلات مميزة للأطفال</p>
-        </section>
-
-
-        <!-- عروض الجملة -->
-        <section id="wholesale">
-            <h2>عروض الجملة</h2>
-            <p>أسعار خاصة للتجار وأصحاب المحلات</p>
-            <p>للاستفسار عن أسعار الجملة والكميات المتاحة، تواصل معنا.</p>
-            <a href="#contact">اطلب عرض سعر</a>
-        </section>
-
-
-        <!-- سلة المشتريات -->
-        <section id="cart">
-            <h2>سلة المشتريات</h2>
-
-            <div id="cartItems">
-                <p>سلة المشتريات فارغة حاليًا</p>
             </div>
 
-            <p>الإجمالي: <span id="total">0</span> جنيه</p>
 
-            <a href="#checkout">إتمام الطلب</a>
+            <div class="hero-decoration">
+
+                <div class="hero-card">
+
+                    <span>
+                        FASHION
+                    </span>
+
+                    <strong>
+                        YOUR
+                        <br>
+                        STYLE
+                    </strong>
+
+                    <small>
+                        PREMIUM COLLECTION
+                    </small>
+
+                </div>
+
+            </div>
+
         </section>
 
 
-        <!-- نموذج إتمام الطلب -->
-        <section id="checkout">
-            <h2>إتمام الطلب</h2>
+        <!-- =========================
+             FEATURES
+        ========================== -->
 
-            <form id="checkoutForm">
+        <section class="features">
 
-                <label for="customerName">الاسم بالكامل:</label>
-                <input type="text" id="customerName"
-                       name="customerName" required>
+            <div class="feature-item">
 
-                <br>
+                <span class="feature-number">
+                    01
+                </span>
 
-                <label for="phone">رقم الهاتف:</label>
-                <input type="tel" id="phone"
-                       name="phone" required>
+                <div>
+                    <h3>
+                        جودة مميزة
+                    </h3>
 
-                <br>
+                    <p>
+                        نختار منتجاتنا بعناية
+                    </p>
+                </div>
 
-                <label for="address">العنوان بالتفصيل:</label>
-                <textarea id="address"
-                          name="address" required></textarea>
+            </div>
 
-                <br>
 
-                <label for="orderType">نوع الطلب:</label>
-                <select id="orderType" name="orderType">
-                    <option value="retail">قطاعي</option>
-                    <option value="wholesale">جملة</option>
-                </select>
+            <div class="feature-item">
 
-                <br>
+                <span class="feature-number">
+                    02
+                </span>
 
-                <label for="notes">ملاحظات:</label>
-                <textarea id="notes" name="notes"></textarea>
+                <div>
+                    <h3>
+                        أسعار منافسة
+                    </h3>
 
-                <br>
+                    <p>
+                        أسعار مناسبة للقطاعي والجملة
+                    </p>
+                </div>
 
-                <button type="submit">تأكيد الطلب</button>
+            </div>
 
-            </form>
+
+            <div class="feature-item">
+
+                <span class="feature-number">
+                    03
+                </span>
+
+                <div>
+                    <h3>
+                        تشكيلات متجددة
+                    </h3>
+
+                    <p>
+                        تابع أحدث المنتجات باستمرار
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="feature-item">
+
+                <span class="feature-number">
+                    04
+                </span>
+
+                <div>
+                    <h3>
+                        اطلب بسهولة
+                    </h3>
+
+                    <p>
+                        اختر المنتج وأرسل طلبك مباشرة
+                    </p>
+                </div>
+
+            </div>
+
         </section>
 
 
-        <!-- تواصل معنا -->
-        <section id="contact">
-            <h2>تواصل معنا</h2>
-            <p>يسعدنا استقبال استفساراتكم وطلباتكم</p>
-            <p>رقم الهاتف: 01XXXXXXXXX</p>
-            <p>البريد الإلكتروني: info@example.com</p>
+        <!-- =========================
+             CATEGORIES
+        ========================== -->
+
+        <section id="categories" class="categories-section">
+
+            <div class="section-heading">
+
+                <span>
+                    EXPLORE
+                </span>
+
+                <h2>
+                    اكتشف مجموعاتنا
+                </h2>
+
+                <p>
+                    اختار ستايلك واكتشف المجموعة المناسبة لك
+                </p>
+
+            </div>
+
+
+            <div class="category-grid">
+
+
+                <!-- Men -->
+
+                <article class="category-card">
+
+                    <div
+                        id="menCategoryImage"
+                        class="category-image"
+                    >
+
+                        <div class="category-overlay">
+
+                            <span>
+                                01
+                            </span>
+
+                            <h3>
+                                رجالي
+                            </h3>
+
+                            <a href="#products">
+                                اكتشف المجموعة
+                                <span>←</span>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Women -->
+
+                <article class="category-card">
+
+                    <div
+                        id="womenCategoryImage"
+                        class="category-image category-women"
+                    >
+
+                        <div class="category-overlay">
+
+                            <span>
+                                02
+                            </span>
+
+                            <h3>
+                                حريمي
+                            </h3>
+
+                            <a href="#women">
+                                اكتشف المجموعة
+                                <span>←</span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- Kids -->
+
+                <article class="category-card">
+
+                    <div
+                        id="kidsCategoryImage"
+                        class="category-image category-kids"
+                    >
+
+                        <div class="category-overlay">
+
+                            <span>
+                                03
+                            </span>
+
+                            <h3>
+                                أطفال
+                            </h3>
+
+                            <a href="#kids">
+                                اكتشف المجموعة
+                                <span>←</span>
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PRODUCTS
+        ========================== -->
+
+        <section id="products" class="products-section">
+
+            <div class="section-heading products-heading">
+
+                <div>
+
+                    <span>
+                        OUR COLLECTION
+                    </span>
+
+                    <h2>
+                        أحدث المنتجات
+                    </h2>
+
+                    <p>
+                        اختيارات مميزة لإطلالتك اليومية
+                    </p>
+
+                </div>
+
+                <div class="collection-line"></div>
+
+            </div>
+
+
+            <div id="men" class="products-grid"></div>
+
+        </section>
+
+
+        <!-- =========================
+             WOMEN
+        ========================== -->
+
+        <section id="women" class="coming-section">
+
+            <div class="coming-content">
+
+                <span>
+                    WOMEN COLLECTION
+                </span>
+
+                <h2>
+                    تشكيلات حريمي
+                    <br>
+                    <em>قريبًا</em>
+                </h2>
+
+                <p>
+                    نعمل على تجهيز مجموعة جديدة
+                    من الأزياء الحريمي المختارة بعناية.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             KIDS
+        ========================== -->
+
+        <section id="kids" class="kids-section">
+
+            <div class="coming-content">
+
+                <span>
+                    KIDS COLLECTION
+                </span>
+
+                <h2>
+                    عالم من
+                    <br>
+                    <em>الأناقة للأطفال</em>
+                </h2>
+
+                <p>
+                    تشكيلات أطفال مميزة قادمة قريبًا.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             WHOLESALE
+        ========================== -->
+
+        <section id="wholesale" class="wholesale-section">
+
+            <div class="wholesale-content">
+
+                <span>
+                    BUSINESS • WHOLESALE
+                </span>
+
+                <h2>
+                    للجملة...
+                    <br>
+                    <strong>فرص أكبر لتجارتك</strong>
+                </h2>
+
+                <p>
+                    أسعار خاصة للتجار وأصحاب المحلات
+                    وكميات تناسب احتياجات نشاطك.
+                </p>
+
+                <a href="#contact" class="light-button">
+                    تواصل معنا
+                    <span>←</span>
+                </a>
+
+            </div>
+
+
+            <div class="wholesale-number">
+                04
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CART
+        ========================== -->
+
+        <section id="cart" class="cart-section">
+
+            <div class="section-heading">
+
+                <span>
+                    YOUR BAG
+                </span>
+
+                <h2>
+                    سلة المشتريات
+                </h2>
+
+                <p>
+                    راجع اختياراتك قبل إتمام الطلب
+                </p>
+
+            </div>
+
+
+            <div class="cart-wrapper">
+
+                <div id="cartItems" class="cart-items">
+
+                    <div class="empty-cart">
+
+                        <span>
+                            🛒
+                        </span>
+
+                        <p>
+                            السلة فارغة حاليًا
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="cart-summary">
+
+                    <div class="summary-row">
+
+                        <span>
+                            الإجمالي
+                        </span>
+
+                        <strong>
+                            <span id="total">0</span>
+                            جنيه
+                        </strong>
+
+                    </div>
+
+
+                    <a href="#checkout" class="checkout-link">
+                        إتمام الطلب
+                        <span>←</span>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CHECKOUT
+        ========================== -->
+
+        <section id="checkout" class="checkout-section">
+
+            <div class="checkout-intro">
+
+                <span>
+                    CHECKOUT
+                </span>
+
+                <h2>
+                    أكمل طلبك
+                </h2>
+
+                <p>
+                    أدخل بياناتك وسنتواصل معك
+                    لتأكيد الطلب والتوصيل.
+                </p>
+
+            </div>
+
+
+            <div class="checkout-form-wrapper">
+
+                <form id="checkoutForm">
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="customerName">
+                                الاسم بالكامل
+                            </label>
+
+                            <input
+                                type="text"
+                                id="customerName"
+                                name="customerName"
+                                placeholder="اكتب اسمك بالكامل"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="phone">
+                                رقم الهاتف
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="01xxxxxxxxx"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="address">
+                            العنوان بالتفصيل
+                        </label>
+
+                        <textarea
+                            id="address"
+                            name="address"
+                            placeholder="المحافظة - المنطقة - الشارع - رقم العقار"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label for="orderType">
+                                نوع الطلب
+                            </label>
+
+                            <select
+                                id="orderType"
+                                name="orderType"
+                            >
+
+                                <option value="retail">
+                                    قطاعي
+                                </option>
+
+                                <option value="wholesale">
+                                    جملة
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="notes">
+                                ملاحظات
+                            </label>
+
+                            <input
+                                type="text"
+                                id="notes"
+                                name="notes"
+                                placeholder="أي ملاحظات إضافية"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="submit-order"
+                    >
+                        تأكيد وإرسال الطلب
+                        <span>←</span>
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             CONTACT
+        ========================== -->
+
+        <section id="contact" class="contact-section">
+
+            <div class="contact-inner">
+
+                <div class="contact-title">
+
+                    <span>
+                        GET IN TOUCH
+                    </span>
+
+                    <h2>
+                        تواصل معنا
+                    </h2>
+
+                    <p>
+                        لديك استفسار أو تريد معرفة
+                        أسعار الجملة؟
+                        يسعدنا التواصل معك.
+                    </p>
+
+                </div>
+
+
+                <div class="contact-details">
+
+                    <div>
+
+                        <span>
+                            الهاتف
+                        </span>
+
+                        <strong>
+                            01XXXXXXXXX
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            البريد الإلكتروني
+                        </span>
+
+                        <strong>
+                            info@example.com
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </section>
 
     </main>
 
 
-    <!-- تذييل الموقع -->
-    <footer>
-        <p>FASHION STORE</p>
-        <p>جميع الحقوق محفوظة &copy; 2026</p>
+    <!-- =========================
+         FOOTER
+    ========================== -->
 
-        <nav>
-            <a href="#home">الرئيسية</a>
-            <a href="#products">المنتجات</a>
-            <a href="#contact">تواصل معنا</a>
-        </nav>
+    <footer class="site-footer">
+
+        <div class="footer-main">
+
+            <div class="footer-brand">
+
+                <a href="#home" class="brand footer-logo">
+
+                    <span class="brand-name">
+                        FASHION
+                    </span>
+
+                    <span class="brand-subtitle">
+                        STORE
+                    </span>
+
+                </a>
+
+                <p>
+                    أسلوبك... اختيارك... هويتك.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h3>
+                    روابط سريعة
+                </h3>
+
+                <a href="#home">
+                    الرئيسية
+                </a>
+
+                <a href="#products">
+                    المنتجات
+                </a>
+
+                <a href="#wholesale">
+                    الجملة
+                </a>
+
+                <a href="#contact">
+                    تواصل معنا
+                </a>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h3>
+                    المتجر
+                </h3>
+
+                <a href="#products">
+                    أحدث المنتجات
+                </a>
+
+                <a href="#women">
+                    حريمي
+                </a>
+
+                <a href="#kids">
+                    أطفال
+                </a>
+
+                <a href="#cart">
+                    سلة المشتريات
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 FASHION STORE. جميع الحقوق محفوظة.
+            </p>
+
+            <a href="#home">
+                العودة للأعلى ↑
+            </a>
+
+        </div>
+
     </footer>
+
+
+    <script>
+
+        /*
+         * تحميل صور الأقسام من لوحة التحكم
+         * البيانات تأتي من:
+         * /api/site-settings
+         */
+
+        async function loadCategoryImages() {
+
+            try {
+
+                const response = await fetch("/api/site-settings");
+
+                if (!response.ok) {
+                    throw new Error("Failed to load site settings");
+                }
+
+                const settings = await response.json();
+
+
+                const menImage =
+                    document.getElementById("menCategoryImage");
+
+                const womenImage =
+                    document.getElementById("womenCategoryImage");
+
+                const kidsImage =
+                    document.getElementById("kidsCategoryImage");
+
+
+                if (settings.men_image && menImage) {
+
+                    menImage.style.backgroundImage =
+                        `url("${settings.men_image}")`;
+
+                }
+
+
+                if (settings.women_image && womenImage) {
+
+                    womenImage.style.backgroundImage =
+                        `url("${settings.women_image}")`;
+
+                }
+
+
+                if (settings.kids_image && kidsImage) {
+
+                    kidsImage.style.backgroundImage =
+                        `url("${settings.kids_image}")`;
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading category images:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /*
+         * تشغيل تحميل صور الأقسام
+         */
+
+        loadCategoryImages();
+
+    </script>
+
+
+    <!-- ملف الموقع الأساسي -->
     <script src="script.js"></script>
 
 </body>
+
 </html>
